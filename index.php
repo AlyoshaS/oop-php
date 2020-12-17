@@ -1,15 +1,16 @@
 <?php
   require_once 'Caneta.php';
 
-  $c1 = new Caneta();
-  $c1->modelo = "BIC cristal";
-  $c1->cor = "Azul";
-  // $c1->ponta = 0.5;
-  // $c1->carga = 99;
-  // $c1->tampada = true;
-  $c1->rabiscar();
-  $c1->tampar();
-  $c1->destampar();
-  
+  // Utilizando getters e setters - antes de adicionar o método construct, foi possível exacutar esse código
+  // após criarmos o construct, você precisa passar os parâmetros.
+  // $c1 = new Caneta();
+  // $c1->setModelo("BIC");
+  // $c1->setPonta(0.5);
+  // print "Eu tenho uma caneta { $c1->getModelo() } de ponta { $c1->getPonta() }";
+
+
+  $c1 = new Caneta("BIC", "Azul", 0.5);
+  $c2 = new Caneta("BICs", "Verde", 1.0);
   print_r($c1);
+  print_r($c2);
 ?>
