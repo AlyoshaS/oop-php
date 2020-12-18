@@ -11,58 +11,71 @@ class ContaBanco {
     $this->setTipo($tipoDeConta);
     $this->setStatus(true);
 
-    if($tipoDeConta === "CC") {
+    if ($tipoDeConta === "CC") {
       return $this->setSaldo(50);
-    } else {
+    } elseif ($tipoDeConta === "CP")  {
       return $this->setSaldo(150);
     }
 
   }
 
   public function fecharConta() {
+
     if($this->getSaldo() > 0) {
       echo "Para fechar sua conta, você precisará sacar todo seu dinheiro!";
     } elseif ($this->getSaldo() < 0) {
       echo "Para fechar sua conta, você precisará pagar todo débito pendente!";
     } else {
       $this->setStatus(false);
+      echo "Conta de {$this->getDono()} fechada com sucesso!";
     }
 
   }
 
   public function depositar($deposito) {
+
     if ($this->getStatus()) {
-      $this->saldo =+ $deposito;
+      $this->setSaldo($this->getSaldo() + $deposito);
+      echo "Depósito de $deposito reais autorizado na conta de {$this->getDono()}";
     } else {
       echo "Contas fechadas não podem receber depósitos";
     }
+
   }
 
   public function sacar($valor) {
-    if ($this->getStatus() && $this->getSaldo() > 0 && $valor < $this->getSaldo()) {
-      $this->saldo =- $valor;
-    } elseif ($this->getStatus() && $this->getSaldo() > 0 && $valor > $this->getSaldo()) {
-      echo "Seu saldo é insuficiente para realizar essa operação";
+
+    if ($this->getStatus()) {
+
+      if ($this->getSaldo() >= $valor) {
+        $this->setSaldo($this->getSaldo() - $valor);
+        echo "Saque de $valor reais autorizado na conta de {$this->getDono()}";
+      } else {
+        echo "Seu saldo é insuficiente para realizar essa operação";
+      }
+
     } else {
       echo "Contas fechadas não podem receber depósitos";
     };
   }
 
   public function pagarMensalidade() {
-    $mensalidade = 0;
 
     if($this->getTipo() == "CC") {
-      $mensalidade = $mensalidade + 12;
+      $mensalidade = 12;
     } elseif($this->getTipo() == "CP") {
-      $mensalidade = $mensalidade + 20;
+      $mensalidade = 20;
     }
 
     if ($this->getStatus()) {
+
       if($this->getSaldo() > $mensalidade) {
-        $this->saldo = $this->saldo - $mensalidade;
+        $this->setSaldo($this->getSaldo() - $mensalidade);
+        echo "Mensalidade de $mensalidade reais debitada na conta de {$this->getDono()}";
       } else {
         echo "Saldo insuficiente.";
       }
+
     } else {
       echo "Conta fechada";
     }
@@ -71,8 +84,8 @@ class ContaBanco {
 
   // Métodos especiais:
   public function __construct() {
-    $this->status = false;
-    $this->saldo = 0;
+    $this->setStatus(false);
+    $this->setSaldo(0);
   }
 
   public function setNumConta($n) {
@@ -100,7 +113,7 @@ class ContaBanco {
   }
 
   public function setSaldo($valor) {
-    $this->depositar($valor);
+    $this->saldo = $valor;
   }
 
   public function getSaldo() {
