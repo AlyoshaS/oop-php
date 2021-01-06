@@ -1,8 +1,6 @@
 <?php
 
-require_once 'LutadorInfo.php';
-
-class Lutador implements LutadorInfo {
+class Lutador {
   private $nome;  
   private $nacionalidade;
   private $idade;
@@ -12,6 +10,37 @@ class Lutador implements LutadorInfo {
   private $vitorias;
   private $derrotas;
   private $empates;
+
+
+  public function apresentar() {
+    echo "Chegou a hora! O lutador {$this->getNome()} ";
+    echo "veio diretamente de {$this->getNacionalidade()}, ";
+    echo "tem {$this->getIdade()} anos, ";
+    echo "pesa {$this->getpeso()}Kg, ";
+    echo "e {$this->getAltura()}m de altura. ";
+    echo "Ele tem {$this->getVitorias()} vitórias, ";
+    echo "{$this->getDerrotas()} derrotas e {$this->getEmpates()} empates!";
+  }
+
+  public function status() {
+    echo "{$this->getNome()} ";
+    echo "é um peso {$this->getCategoria()}, ";
+    echo "já ganhou {$this->getVitorias()} vezes, ";
+    echo "perdeu {$this->getDerrotas()} vezes e ";
+    echo "teve {$this->getEmpates()} empates.";
+  }
+
+  public function ganharLuta() {
+    $this->setVitorias($this->getVitorias() + 1);
+  }
+
+  public function perderLuta() {
+    $this->setDerrotas($this->getDerrotas() + 1);
+  }
+
+  public function empatarLuta() {
+    $this->setEmpates($this->getEmpates() + 1);
+  }
 
   public function __construct(
     $name,
@@ -27,123 +56,99 @@ class Lutador implements LutadorInfo {
     $this->nacionalidade = $nc;
     $this->idade = $age;
     $this->altura = $height;
-    $this->peso = $this->setPeso($weight);
+    $this->setPeso($weight);
+    $this->peso = $weight;
     $this->vitorias = $wins;
     $this->derrotas = $loses;
     $this->empates = $tie;
   }
 
-  private function getNome() {
+  function getNome() {
     return $this->nome;
   }
 
-  private function getNacionalidade() {
+  function getNacionalidade() {
     return $this->nacionalidade;
   }
 
-  private function getIdade() {
+  function getIdade() {
     return $this->idade;
   }
 
-  private function getAltura() {
+  function getAltura() {
     return $this->altura;
   }
 
-  private function getPeso() {
+  function getPeso() {
     return $this->peso;
   }
 
-  private function getCategoria() {
+  function getCategoria() {
     return $this->categoria;
   }
 
-  private function getVitorias() {
+  function getVitorias() {
     return $this->vitorias;
   }
 
-  private function getDerrotas() {
+  function getDerrotas() {
     return $this->derrotas;
   }
 
-  private function getEmpates() {
+  function getEmpates() {
     return $this->empates;
   }
 
-  private function setNome($name) {
+  function setNome($name) {
     $this->nome = $name;
   }
 
-  private function setNacionalidade($nc) {
+  function setNacionalidade($nc) {
     $this->nacionalidade = $nc;
   }
 
-  private function setIdade($age) {
+  function setIdade($age) {
     $this->idade = $age;
   }
 
-  private function setAltura($height) {
+  function setAltura($height) {
     $this->altura = $height;
   }
 
-  private function setPeso($weight) {
+  function setPeso($weight) {
     $this->peso = $weight;
-    $this->setCategoria($weight);
+    $this->setCategoria();
   }
 
-  private function setCategoria($weight) {
+  function setCategoria() {
+    $weight = $this->peso;
 
     if ( $weight < 52.2 ) {
-      $this->categoria = 'Inválido';
+      $this->categoria = 'inválido';
     } elseif ( $weight <= 70.3 ) {
-      $this->categoria = 'Leve';
+      $this->categoria = 'leve';
     } elseif ( $weight <= 83.9 ) {
-      $this->categoria = 'Médio';
+      $this->categoria = 'médio';
     } elseif ($weight <= 120.2) {
-      $this->categoria = 'Pesado';
+      $this->categoria = 'pesado';
     } else {
-      $this->categoria = 'Inválido';
+      $this->categoria = 'inválido';
     }
-    
+
   }
 
-  private function setVitorias($wins) {
+  function setVitorias($wins) {
     $this->vitorias = $wins;
   }
 
-  private function setDerrotas($loses) {
+  function setDerrotas($loses) {
     $this->derrotas = $loses;
   }
 
-  private function setEmpates($tie) {
+  function setEmpates($tie) {
     $this->empates = $tie;
   }
 
-  public function ganharLuta() {
-    $this->setVitorias($this->getVitorias() + 1);
-  }
-
-  public function perderLuta() {
-    $this->setDerrotas($this->getDerrotas() + 1);
-  }
-
-  public function empatarLuta() {
-    $this->setEmpates($this->getEmpates() + 1);
-  }
-
-  public function apresentar() {
-    echo "Lutador: {$this->getNome()}, ";
-    echo "Origem: {$this->getNacionalidade()}, ";
-    echo "Idade: {$this->getIdade()} anos, ";
-    echo "Altura: {$this->getAltura()}m de altura, ";
-    echo "Pesando: {$this->getpeso()}Kg, ";
-    echo "Ganhou: {$this->getVitorias()}m de altura.";
-    echo "Altura: {$this->getAltura()}m de altura.";
-  }
-
-  public function status() {
-
-  }
-  
 }
 
 ?>
