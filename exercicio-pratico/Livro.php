@@ -21,47 +21,56 @@ class Livro implements Publicacao {
     $this->autor = $autor;
     $this->totalPaginas = $totalPaginas;
     $this->setLeitor($leitor);
-    $this->fechar();
+    $this->aberto = false;
+    $this->paginaAtual = 0;
   }
 
   function abrir() {
-    $this->setAberto(true);
+    $this->setAberto();
   }
 
   function fechar() {
     $this->aberto = false;
   }
 
-  function folhear() {
+  function folhear($pagina) {
     if(!$this->getAberto()) {
       $this->setAberto();
-      $this->getPaginaAtual() + rand(0, 10);
     }
+
+    return $this->setPaginaAtual($pagina);
   }
 
   function avançarPagina() {
 
-    //verificar aberto?
+    if(!$this->getAberto()) {
+      $this->setAberto();
+    }
+
     if ($this->getPaginaAtual() < $this->getTotalPaginas()) {
       $pagina = $this->getPaginaAtual() + 1;
       $this->setPaginaAtual($pagina);
     } else {
       echo "Última página do livro!";
     }
+
   }
 
   function voltarPagina() {
-    $pagina = $this->getPaginaAtual() - 1;
-    $this->setPaginaAtual($pagina);
+    if($this->paginaAtual > 0) {
+      $pagina = $this->getPaginaAtual() - 1;
+      $this->setPaginaAtual($pagina);
+    } else {
+      echo "Primeira página do livro!";
+    }
   }
 
-
   function detalhes() {
+
     echo "Olá {$this->leitor->getNome()}! Você está lendo {$this->titulo} escrito por {$this->autor}";
-    echo " e ele tem {$this->totalPaginas}";
-    if ($this->aberto && $this->paginaAtual > 0) {
-      echo "Você parou na página {$this->paginaAtual}. Bora continuar?";
-    }
+    echo " e ele tem {$this->totalPaginas} páginas. ";
+    echo "Você parou na página {$this->paginaAtual}. Bora continuar?";
+
   }
 
   function getTitulo() {
@@ -77,6 +86,10 @@ class Livro implements Publicacao {
   }
 
   function getPaginaAtual() {
+    if (!$this->paginaAtual) {
+      echo "Livro fechado!";
+    }
+
     return $this->paginaAtual;
   }
 
